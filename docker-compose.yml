@@ -33,4 +33,8 @@ services:
       - '9999:9999'
     environment:
       - SPRING_CREDIT_GATE_URL=http://localhost:9999/credit
+<<<<<<< HEAD
       - SPRING_PAYMENT_GATE_URL=http://localhost:9999/payment
+=======
+      - SPRING_PAYMENT_GATE_URL=http://localhost:9999/payment
+>>>>>>> 38bd88314061ad96bf63f88808cf39f4b7ed11d1
