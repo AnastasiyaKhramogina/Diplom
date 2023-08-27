@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=app
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=pass
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+  postgresql:
+    image: postgres:13
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=app
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+
+  gate-simulator:
+    image: gate-simulator:latest
+    restart: always
+    ports:
+      - '9999:9999'
+    environment:
+      - SPRING_CREDIT_GATE_URL=http://localhost:9999/credit
+      - SPRING_PAYMENT_GATE_URL=http://localhost:9999/payment
