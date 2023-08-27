@@ -1,19 +1,50 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.11.2'
+    id 'io.freefair.lombok' version '5.3.0'
 }
 
-group 'org.example'
+group 'ru.netology'
 version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+
+//
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+allure {
+    version = '2.20.1'
+    useJUnit5 {
+        version = '2.20.1'
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
+
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.postgresql:postgresql:42.2.23'
+    testImplementation 'io.qameta.allure:allure-selenide:2.20.1'
+    testImplementation 'org.mockito:mockito-core:3.12.4'
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4'
+    implementation 'commons-dbutils:commons-dbutils:1.7'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    testImplementation 'com.codeborne:selenide:6.17.0'
+    implementation 'com.codeborne:selenide:6.17.0'
+    implementation 'org.hibernate:hibernate-core:5.5.7.Final'
+    implementation 'mysql:mysql-connector-java:8.0.28'
+    implementation 'com.github.javafaker:javafaker:1.0.2'
 }
 
 test {
     useJUnitPlatform()
+    systemProperty 'selenide.headless', System.getProperty('selenide.headless')
+
+    // Настройки переменных окружения для баз данных
+    systemProperty 'db.url', System.getProperty('db.url', 'jdbc:postgresql://localhost:5432/app')
+    systemProperty 'db.username', System.getProperty('db.username', 'app')
+    systemProperty 'db.password', System.getProperty('db.password', 'pass')
 }
