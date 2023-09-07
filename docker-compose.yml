@@ -25,12 +25,8 @@ services:
       - POSTGRES_DB=app
     volumes:
       - ./postgresql:/var/lib/postgresql/data
-
-  gate-simulator:
-    image: gate-simulator:latest
-    restart: always
+  node-app:
+    build: gate-simulator
+    image: node-app:1.0
     ports:
       - '9999:9999'
-    environment:
-      - SPRING_CREDIT_GATE_URL=http://localhost:9999/credit
-      - SPRING_PAYMENT_GATE_URL=http://localhost:9999/payment

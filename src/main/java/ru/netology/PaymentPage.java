@@ -4,7 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class Payment {
+public class PaymentPage {
     private SelenideElement buyButton = $(".button.button_size_m");
     private SelenideElement buyOnCreditButton = $$(".button_view_extra").first(); // Первая кнопка "Купить в кредит"
     private SelenideElement continueButton = $$(".button_view_extra").last(); // Вторая кнопка "Продолжить"

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class OtherPaymentServiceTest {
-    private Payment payment;
+    private PaymentPage payment;
 
     @BeforeAll
     static void setUpAll() {
@@ -25,7 +25,7 @@ public class OtherPaymentServiceTest {
     @BeforeEach
     public void setUp() {
         Configuration.headless = true;
-        payment = open("http://localhost:8080/", Payment.class);
+        payment = open("http://localhost:8080/", PaymentPage.class);
     }
 
     @AfterEach
