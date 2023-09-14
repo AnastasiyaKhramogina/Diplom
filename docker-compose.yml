@@ -11,9 +11,6 @@ services:
       - MYSQL_DATABASE=app
       - MYSQL_USER=app
       - MYSQL_PASSWORD=pass
-    volumes:
-      - ./mysql:/var/lib/mysql
-
   postgresql:
     image: postgres:13
     restart: always
@@ -23,8 +20,6 @@ services:
       - POSTGRES_USER=app
       - POSTGRES_PASSWORD=pass
       - POSTGRES_DB=app
-    volumes:
-      - ./postgresql:/var/lib/postgresql/data
   node-app:
     build: gate-simulator
     image: node-app:1.0

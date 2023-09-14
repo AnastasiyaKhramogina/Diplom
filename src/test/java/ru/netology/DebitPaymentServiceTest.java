@@ -10,7 +10,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DebitPaymentServiceTest {
-    private PaymentPage payment;
+    private Payment payment;
 
     @BeforeAll
     static void setUpAll() {
@@ -25,7 +25,7 @@ public class DebitPaymentServiceTest {
     @BeforeEach
     public void setUp() {
         Configuration.headless = true;
-        payment = open("http://localhost:8080/", PaymentPage.class);
+        payment = open("http://localhost:8080/", Payment.class);
     }
 
     @AfterEach
