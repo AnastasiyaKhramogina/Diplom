@@ -33,6 +33,7 @@ public class OtherPaymentServiceTest {
         closeWebDriver();
         SqlHelper.clearOrderTable();
     }
+
     @Test
     public void testCardNumberNotFilled() {
         payment.clickBuyOnCreditButton();
@@ -46,6 +47,7 @@ public class OtherPaymentServiceTest {
         String errorMessage = payment.getInputErrorMessage();
         assertEquals("Неверный формат", errorMessage);
     }
+
     @Test
     public void testCardNumberLessThan16Digits() {
         payment.clickBuyOnCreditButton();
@@ -142,6 +144,7 @@ public class OtherPaymentServiceTest {
         String errorMessage = payment.getInputErrorMessage();
         assertEquals("Неверный формат", errorMessage);
     }
+
     @Test
     public void testSpecifiedMonthIsGreaterThan12() {
 
