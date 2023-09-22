@@ -18,7 +18,8 @@ public class DataHelper {
     }
 
     public static CardInfo getApprovedCard() {
-        return new CardInfo("4444 4444 4444 4441", "APPROVED");
+        CardInfo approved = new CardInfo("4444 4444 4444 4441", "APPROVED");
+        return approved;
     }
 
     public static CardInfo getDeclinedCard() {
