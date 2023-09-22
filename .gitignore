@@ -44,3 +44,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+mysql/
+postgresql/
+src/test/resources/
+target/
