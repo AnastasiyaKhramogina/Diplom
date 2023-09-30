@@ -5,10 +5,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import lombok.SneakyThrows;
+
 public class SqlHelper {
-    private static String DB_URL = System.getProperty("db.url", "jdbc:postgresql://localhost:5432/app");
-    private static String DB_USER = System.getProperty("db.username", "app");
-    private static String DB_PASSWORD = System.getProperty("db.password", "pass");
+
+    private final static String DB_URL = System.getProperty("DB_URL");
+    private final static String DB_USER = System.getProperty("DB_USER");
+    private final static String DB_PASSWORD = System.getProperty("DB_PASSWORD");
 
     public static boolean isPaymentStatusApproved() {
         return isStatusEquals("payment_entity", "APPROVED");
@@ -26,6 +29,7 @@ public class SqlHelper {
         return isStatusEquals("credit_request_entity", "DECLINED");
     }
 
+    @SneakyThrows
     private static boolean isStatusEquals(String tableName, String expectedStatus) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement statement = connection.prepareStatement(
@@ -33,11 +37,7 @@ public class SqlHelper {
             statement.setString(1, expectedStatus);
 
             return statement.executeQuery().next();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
-        return false;
     }
 
     public static void clearPaymentTable() {
@@ -52,12 +52,11 @@ public class SqlHelper {
         executeUpdate("DELETE FROM order_entity;");
     }
 
+    @SneakyThrows
     private static void executeUpdate(String query) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

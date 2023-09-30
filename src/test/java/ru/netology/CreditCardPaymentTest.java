@@ -5,16 +5,21 @@ import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.closeWebDriver;
+import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+public class CreditCardPaymentTest {
 
-public class OtherPaymentServiceTest {
-    private Payment payment;
+    private PaymentPage payment = new PaymentPage();
 
     @BeforeAll
     static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
+        System.setProperty("DB_URL", "jdbc:postgresql://localhost:5432/app");
+        System.setProperty("DB_USER", "app");
+        System.setProperty("DB_PASSWORD", "pass");
     }
 
     @AfterAll
@@ -25,13 +30,75 @@ public class OtherPaymentServiceTest {
     @BeforeEach
     public void setUp() {
         Configuration.headless = true;
-        payment = open("http://localhost:8080/", Payment.class);
+        payment = open("http://localhost:8080/", PaymentPage.class);
     }
 
     @AfterEach
     public void tearDown() {
         closeWebDriver();
+        SqlHelper.clearCreditRequestTable();
         SqlHelper.clearOrderTable();
+    }
+
+    @Test
+    public void testCreditCardPaymentApproved() {
+        payment.clickBuyOnCreditButton();
+
+        DataHelper.CardInfo cardInfo = DataHelper.getApprovedCard();
+        payment.enterCardNumber(cardInfo.getNumber());
+        payment.enterMonth(DataHelper.generateMonth());
+        payment.enterYear(DataHelper.generateYear());
+        payment.enterOwner(DataHelper.generateOwnerName());
+        payment.enterCvc(DataHelper.generateCvc());
+
+        payment.clickContinueButton();
+
+        payment.waitForStatusOkNotification();
+
+        assertTrue(payment.isStatusOkNotificationDisplayed(), "Всплывающее окно об операции не отобразилось");
+
+        assertTrue(SqlHelper.isCreditRequestStatusApproved(), "Статус заявки на кредит не является 'APPROVED'");
+    }
+
+    @Test
+    public void testCreditCardPaymentDeclined() {
+        payment.clickBuyOnCreditButton();
+
+        DataHelper.CardInfo cardInfo = DataHelper.getDeclinedCard();
+        payment.enterCardNumber(cardInfo.getNumber());
+        payment.enterMonth(DataHelper.generateMonth());
+        payment.enterYear(DataHelper.generateYear());
+        payment.enterOwner(DataHelper.generateOwnerName());
+        payment.enterCvc(DataHelper.generateCvc());
+
+        payment.clickContinueButton();
+
+        payment.waitForStatusOkNotification();
+
+        assertTrue(payment.isStatusOkNotificationDisplayed(), "Всплывающее окно об операции не отобразилось");
+
+        assertTrue(SqlHelper.isCreditRequestStatusDeclined(), "Статус заявки на кредит не является 'DECLINED'");
+    }
+
+    @Test
+    public void testDecliningCreditCardPayment() {
+
+        payment.clickBuyOnCreditButton();
+
+        DataHelper.CardInfo cardInfo = DataHelper.getDeclinedCard();
+        payment.enterCardNumber(cardInfo.getNumber());
+        payment.enterMonth(DataHelper.generateMonth());
+        payment.enterYear(DataHelper.generateYear());
+        payment.enterOwner(DataHelper.generateOwnerName());
+        payment.enterCvc(DataHelper.generateCvc());
+
+        payment.clickContinueButton();
+
+        payment.waitForStatusErrorNotification();
+
+        assertTrue(payment.isStatusErrorNotificationDisplayed(), "Всплывающее окно об операции не отобразилось");
+
+        assertTrue(SqlHelper.isCreditRequestStatusDeclined(), "Статус заявки на кредит не является 'DECLINED'");
     }
 
     @Test
@@ -248,3 +315,5 @@ public class OtherPaymentServiceTest {
     }
 
 }
+
+

@@ -33,10 +33,10 @@ dependencies {
     testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4'
     implementation 'commons-dbutils:commons-dbutils:1.7'
     testImplementation 'com.codeborne:selenide:6.17.0'
-    implementation 'com.codeborne:selenide:6.17.0'
     implementation 'org.hibernate:hibernate-core:5.5.7.Final'
     implementation 'mysql:mysql-connector-java:8.0.28'
     implementation 'com.github.javafaker:javafaker:1.0.2'
+    implementation 'com.codeborne:selenide:6.17.0'
 }
 
 test {

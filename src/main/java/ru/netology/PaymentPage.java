@@ -1,13 +1,21 @@
 package ru.netology;
 
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
 
+import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.*;
+import com.codeborne.selenide.Condition;
 
-public class Payment {
+
+import java.time.Duration;
+
+public class PaymentPage {
+
+
     private SelenideElement buyButton = $(".button.button_size_m");
-    private SelenideElement buyOnCreditButton = $$(".button_view_extra").first(); // Первая кнопка "Купить в кредит"
-    private SelenideElement continueButton = $$(".button_view_extra").last(); // Вторая кнопка "Продолжить"
+    private SelenideElement buyOnCreditButton = $$(".button_view_extra").first();
+    private SelenideElement continueButton = $$(".button_view_extra").last();
     private SelenideElement cardNumberField = $("input[placeholder='0000 0000 0000 0000']");
     private SelenideElement monthField = $("input[placeholder='08']");
     private SelenideElement yearField = $("input[placeholder='22']");
@@ -16,6 +24,8 @@ public class Payment {
     private SelenideElement statusOkNotification = $(".notification.notification_status_ok");
     private SelenideElement statusErrorNotification = $(".notification_status_error");
     private SelenideElement inputErrorMessages = $(".input__sub");
+    private SelenideElement StatusOkNotificationDisplayed = $(By.cssSelector(".notification.notification_status_ok"));
+    private SelenideElement StatusErrorNotificationDisplayed = $(By.cssSelector(".notification.notification_status_error"));
 
     public void clickBuyButton() {
         buyButton.click();
@@ -59,5 +69,13 @@ public class Payment {
 
     public String getInputErrorMessage() {
         return inputErrorMessages.getText();
+    }
+
+    public void waitForStatusOkNotification() {
+        statusOkNotification.should(appear, Duration.ofSeconds(10));
+    }
+
+    public void waitForStatusErrorNotification() {
+        statusErrorNotification.should(appear, Duration.ofSeconds(10));
     }
 }
