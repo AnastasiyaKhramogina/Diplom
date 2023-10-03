@@ -17,9 +17,6 @@ public class CreditCardPaymentTest {
     @BeforeAll
     static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
-        System.setProperty("DB_URL", "jdbc:postgresql://localhost:5432/app");
-        System.setProperty("DB_USER", "app");
-        System.setProperty("DB_PASSWORD", "pass");
     }
 
     @AfterAll
@@ -60,28 +57,9 @@ public class CreditCardPaymentTest {
         assertTrue(SqlHelper.isCreditRequestStatusApproved(), "Статус заявки на кредит не является 'APPROVED'");
     }
 
+
     @Test
     public void testCreditCardPaymentDeclined() {
-        payment.clickBuyOnCreditButton();
-
-        DataHelper.CardInfo cardInfo = DataHelper.getDeclinedCard();
-        payment.enterCardNumber(cardInfo.getNumber());
-        payment.enterMonth(DataHelper.generateMonth());
-        payment.enterYear(DataHelper.generateYear());
-        payment.enterOwner(DataHelper.generateOwnerName());
-        payment.enterCvc(DataHelper.generateCvc());
-
-        payment.clickContinueButton();
-
-        payment.waitForStatusOkNotification();
-
-        assertTrue(payment.isStatusOkNotificationDisplayed(), "Всплывающее окно об операции не отобразилось");
-
-        assertTrue(SqlHelper.isCreditRequestStatusDeclined(), "Статус заявки на кредит не является 'DECLINED'");
-    }
-
-    @Test
-    public void testDecliningCreditCardPayment() {
 
         payment.clickBuyOnCreditButton();
 

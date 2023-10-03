@@ -29,11 +29,7 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.2.23'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     testImplementation 'io.qameta.allure:allure-selenide:2.20.1'
-    testImplementation 'org.mockito:mockito-core:3.12.4'
-    testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4'
     implementation 'commons-dbutils:commons-dbutils:1.7'
-    testImplementation 'com.codeborne:selenide:6.17.0'
-    implementation 'org.hibernate:hibernate-core:5.5.7.Final'
     implementation 'mysql:mysql-connector-java:8.0.28'
     implementation 'com.github.javafaker:javafaker:1.0.2'
     implementation 'com.codeborne:selenide:6.17.0'
@@ -44,7 +40,7 @@ test {
     systemProperty 'selenide.headless', System.getProperty('selenide.headless')
 
     // Настройки переменных окружения для баз данных
-    systemProperty 'db.url', System.getProperty('db.url', 'jdbc:postgresql://localhost:5432/app')
-    systemProperty 'db.username', System.getProperty('db.username', 'app')
-    systemProperty 'db.password', System.getProperty('db.password', 'pass')
+    systemProperty 'DB_URL', System.getProperty('DB_URL', 'jdbc:postgresql://localhost:5432/app')
+    systemProperty 'DB_USER', System.getProperty('DB_USER', 'app')
+    systemProperty 'DB_PASSWORD', System.getProperty('DB_PASSWORD', 'pass')
 }

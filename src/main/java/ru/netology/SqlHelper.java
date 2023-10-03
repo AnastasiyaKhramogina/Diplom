@@ -31,32 +31,34 @@ public class SqlHelper {
 
     @SneakyThrows
     private static boolean isStatusEquals(String tableName, String expectedStatus) {
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(
-                     "SELECT * FROM " + tableName + " WHERE status = ?")) {
-            statement.setString(1, expectedStatus);
-
-            return statement.executeQuery().next();
-        }
+        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM " + tableName + " WHERE status = ?");
+        statement.setString(1, expectedStatus);
+        return statement.executeQuery().next();
     }
 
+
+    @SneakyThrows
     public static void clearPaymentTable() {
         executeUpdate("DELETE FROM payment_entity;");
     }
 
+    @SneakyThrows
     public static void clearCreditRequestTable() {
         executeUpdate("DELETE FROM credit_request_entity;");
     }
 
+    @SneakyThrows
     public static void clearOrderTable() {
         executeUpdate("DELETE FROM order_entity;");
     }
 
     @SneakyThrows
     private static void executeUpdate(String query) {
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.executeUpdate();
-        }
+        Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.executeUpdate();
     }
 }
+

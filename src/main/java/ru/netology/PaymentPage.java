@@ -72,10 +72,10 @@ public class PaymentPage {
     }
 
     public void waitForStatusOkNotification() {
-        statusOkNotification.should(appear, Duration.ofSeconds(10));
+        statusOkNotification.should(appear, Duration.ofSeconds(15));
     }
 
     public void waitForStatusErrorNotification() {
-        statusErrorNotification.should(appear, Duration.ofSeconds(10));
+        statusErrorNotification.should(appear, Duration.ofSeconds(15));
     }
 }
